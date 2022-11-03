@@ -1,7 +1,44 @@
+const { hours, species } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
+// hours: {
+//   Tuesday: { open: 8, close: 6 },
+//   Wednesday: { open: 8, close: 6 },
+//   Thursday: { open: 10, close: 8 },
+//   Friday: { open: 10, close: 8 },
+//   Saturday: { open: 8, close: 10 },
+//   Sunday: { open: 8, close: 8 },
+//   Monday: { open: 0, close: 0 },
+// },
 
-function getSchedule(scheduleTarget) {
-  // seu código aqui
-}
+const daysAndHour = Object.keys(data.hours);
+
+const schedule = () => {
+  const objeto = daysAndHour.reduce((acc, day) => {
+    acc[day] = { officeHour: `Open from ${hours[day].open}am until ${hours[day].close}pm`,
+      exhibition: species.filter((animal) => animal.availability.includes(day)).map((e) => e.name),
+    };
+    return acc;
+  }, {});
+  objeto.Monday = {
+    officeHour: 'CLOSED',
+    exhibition: 'The zoo will be closed!',
+  };
+  return objeto;
+};
+console.log(schedule());
+
+const getSchedule = (target) => {
+  if (target === undefined) {
+    return schedule();
+  }
+  const checkSpecie = species.some((e) => target === e.name);
+  if (!checkSpecie && !daysAndHour.includes(target)) {
+    return schedule();
+  }
+  if (daysAndHour.includes(target)) {
+    return { [target]: schedule()[target] };
+  }
+  return species.find((e) => e.name === target).availability;
+};
 
 module.exports = getSchedule;
