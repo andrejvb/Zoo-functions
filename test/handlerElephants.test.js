@@ -23,6 +23,6 @@ describe('Testes da função HandlerElephants', () => {
     expect(handlerElephants('availability')).toHaveLength(4);
   });
   it('Quando passado o argumento "names" retorna um array', () => {
-    expect(typeof handlerElephants('names')).toBe('array');
+    expect(typeof handlerElephants('names')).toBe('object');
   });
 });
